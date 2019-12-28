@@ -1,0 +1,14 @@
+.imageroot {
+  display: flex;
+  width: 200px;
+}
+
+.bookimage {
+  width: 150px;
+  height: auto;
+  margin: auto;
+}
+
+.book-card {
+  text-align: center;
+}

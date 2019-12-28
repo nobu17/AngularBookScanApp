@@ -1,0 +1,19 @@
+<p-dialog
+  header="978から始まる本のバーコードをスキャンしてください。"
+  draggable="false"
+  resizable="false"
+  modal="true"
+  (onHide)="onHide()"
+  (onShow)="onShow()"
+  [(visible)]="display"
+  [contentStyle]="{
+    'min-height': '300px',
+    'max-height': '700px',
+    'min-width': '500px',
+    'max-width': '900px'
+  }"
+>
+  <div id="camera-area">
+    <div id="detect-area" style="visibility:hidden;"></div>
+  </div>
+</p-dialog>

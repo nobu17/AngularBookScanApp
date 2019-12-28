@@ -1,0 +1,66 @@
+<div class="ui-fluid">
+  <div class="ui-g-12">
+    <h2>本のバーコードをスキャンして古本価格を取得しよう。</h2>
+  </div>
+  <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
+    <div class="ui-g-12">
+      <span class="ui-float-label">
+        <input
+          id="float-input"
+          formControlName="isbn13"
+          [(ngModel)]="isbn13"
+          type="text"
+          pInputText
+          required
+        />
+        <label for="float-input">ISBN13を入力</label>
+      </span>
+      <div
+        class="error-msg"
+        *ngIf="f.isbn13.invalid && (f.isbn13.dirty || f.isbn13.touched)"
+      >
+        <span *ngIf="f.isbn13.hasError('required')">
+          入力してください。
+        </span>
+        <span *ngIf="f.isbn13.hasError('lenght')">
+          13桁で入力してください。
+        </span>
+        <span *ngIf="f.isbn13.hasError('numeric')">
+          数値で入力してください。
+        </span>
+        <span *ngIf="f.isbn13.hasError('checksum')">
+          チェックサムが不正です。
+        </span>
+      </div>
+    </div>
+    <div class="ui-g-6">
+      <button
+        pButton
+        type="button"
+        icon="pi pi-video"
+        label="バーコード取得"
+        (click)="onScanDialogOpen($event)"
+      ></button>
+    </div>
+    <div class="ui-g-6">
+      <button
+        pButton
+        type="button"
+        label="ISBN検索"
+        icon="pi pi-search-plus"
+        [disabled]="!formGroup.valid"
+        (click)="onPriceDialogOpen($event)"
+      ></button>
+    </div>
+  </form>
+  <app-price-dialog
+    [display]="displayPriceDialog"
+    [isbn13]="isbn13"
+    (closed)="onClosedPriceDialog($event)"
+  ></app-price-dialog>
+  <app-scan-dialog
+    [display]="displayScanDialog"
+    (codeDetected)="codeDetected($event)"
+    (closed)="onClosedScanDialog($event)"
+  ></app-scan-dialog>
+</div>
