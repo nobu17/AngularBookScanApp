@@ -5,6 +5,7 @@ import { BookPriceServiceFactory } from '../../services/bookprice/bookservice-fa
 import { BookPrice } from 'src/app/models/books/bppkprice';
 import { BookPriceService } from '../../services/bookprice/interface';
 import { promise } from 'protractor';
+import { Dialog } from 'primeng/dialog/dialog';
 
 @Component({
   selector: 'app-price-dialog',
@@ -30,12 +31,16 @@ export class PriceDialogComponent implements OnInit {
     this.bookoffService = this.factory.getBookPriceService('bookoff');
   }
 
-  async onShow() {
-    this.display = true;
-    console.log('start showDialog');
+  async onShow(dialog: Dialog) {
+    // this.display = true;
+    setTimeout(() => {
+      dialog.maximize();
+    }, 10);
+    this.resetInfo();
+    console.log('start showDialog', dialog);
     this.bookinfo = await this.bookInfoService.getBookIfnoAsync(this.isbn13);
     console.log('books', this.bookinfo);
-
+    dialog.maximize();
     const sTask = this.surugayaService.GetBookPriceAsync(this.isbn13);
     const bTask = this.bookoffService.GetBookPriceAsync(this.isbn13);
 
@@ -46,5 +51,19 @@ export class PriceDialogComponent implements OnInit {
     this.closed.emit();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    const bookinfo = new BookInfo();
+    bookinfo.author = 'loading...';
+    bookinfo.prdouctLink = 'dummy';
+    bookinfo.title = 'loading...';
+    bookinfo.imageUrl = './aasets/no-image.png';
+
+    this.bookinfo = bookinfo;
+  }
+
+  private resetInfo(): void {
+    this.bookinfo = null;
+    this.surugayaInfo = null;
+    this.bookinfo = null;
+  }
 }

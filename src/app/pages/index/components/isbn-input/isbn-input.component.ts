@@ -51,5 +51,8 @@ export class IsbnInputComponent implements OnInit {
   }
   public codeDetected(code: string): void {
     this.isbn13 = code;
+    setTimeout(() => {
+      this.displayPriceDialog = true;
+    }, 10);
   }
 }

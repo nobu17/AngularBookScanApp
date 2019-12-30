@@ -1,9 +1,12 @@
-<div class="ui-g" *ngIf="bookinfo; then displayBook; else nodisplyBook"></div>
+<div
+  class="ui-g ui-fluid root"
+  *ngIf="bookinfo; then displayBook; else nodisplyBook"
+></div>
 <ng-template #displayBook>
-  <div class="ui-g-12 ui-md-6 ui-lg-6 imageroot">
+  <div class="ui-g-6 ui-md-6 ui-lg-6 imageroot">
     <img class="bookimage" src="{{ bookinfo.imageUrl }}" />
   </div>
-  <div class="ui-g-12 ui-md-6 ui-lg-6">
+  <div class="ui-g-6 ui-md-9 ui-lg-9">
     <h3>{{ bookinfo.title }}</h3>
     <p>{{ bookinfo.author }}</p>
     <p>出版年:{{ bookinfo.pubdate }}</p>
@@ -17,10 +20,10 @@
   </div>
 </ng-template>
 <ng-template #nodisplyBook>
-  <div class="ui-g-12 ui-md-6 ui-lg-6 imageroot">
+  <div class="ui-g-6 ui-md-6 ui-lg-6 imageroot">
     <img class="bookimage" src="./assets/no-image.png" />
   </div>
-  <div class="ui-g-12 ui-md-6 ui-lg-6 book-card">
+  <div class="ui-g-6 ui-md-6 ui-lg-6 book-card">
     <p-progressSpinner></p-progressSpinner>
     <p>Loading...</p>
   </div>

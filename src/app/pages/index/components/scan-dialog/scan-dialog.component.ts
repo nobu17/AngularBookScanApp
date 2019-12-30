@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Dialog } from 'primeng/dialog/dialog';
 import Quagga from 'quagga';
 
 @Component({
@@ -15,17 +16,20 @@ export class ScanDialogComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
-  onShow() {
+  onShow(dialog: Dialog) {
+    setTimeout(() => {
+      dialog.maximize();
+    }, 10);
     this.display = true;
     console.log('start showDialog');
-    this.startCapture();
+    this.startCapture(dialog);
   }
   onHide() {
     this.display = false;
     this.stopCapture();
     this.closed.emit();
   }
-  private startCapture() {
+  private startCapture(dialog: Dialog) {
     console.log('start capture');
     // Quaggaの設定項目
     const config = {
@@ -36,18 +40,19 @@ export class ScanDialogComponent implements OnInit {
         target: '#camera-area',
         // バックカメラの利用を設定. (フロントカメラは"user")
         constraints: {
+          height: 300,
           facingMode: 'environment'
         },
         size: 900,
         // 検出範囲の指定:
-        area: { top: '30%', right: '5%', left: '5%', bottom: '30%' },
+        area: { top: '0%', right: '0%', left: '0%', bottom: '30%' },
         singleChannel: false
       },
       // 解析するワーカ数の設定
       numOfWorkers: navigator.hardwareConcurrency || 4,
       // バーコードの種類を設定: ISBNは"ean_reader"
       decoder: { readers: ['ean_reader'] },
-      locate: true
+      locate: false
     };
     // show detect-mark
     this.detectArea = document.querySelector('#detect-area') as HTMLElement;
@@ -74,6 +79,9 @@ export class ScanDialogComponent implements OnInit {
         console.error(`Error: ${error}`, error);
         return;
       }
+      setTimeout(() => {
+        dialog.maximize();
+      }, 10);
       // エラーがない場合は、読み取りを開始
       console.log('Initialization finished. Ready to start');
       Quagga.start();
