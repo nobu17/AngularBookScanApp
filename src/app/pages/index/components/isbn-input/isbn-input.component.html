@@ -1,61 +1,55 @@
 <div class="ui-fluid">
+  <h2>本の古本価格を取得しよう。</h2>
   <div class="ui-g-12">
-    <h2>本のバーコードをスキャンして古本価格を取得しよう。</h2>
+    <h3>バーコードをスキャンして探す</h3>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-video"
+      label="バーコードで本を検索"
+      (click)="onScanDialogOpen($event)"
+    ></button>
   </div>
   <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
     <div class="ui-g-12">
+      <h3>キーワードで探す</h3>
       <span class="ui-float-label">
-        <input
-          id="float-input"
-          formControlName="isbn13"
-          [(ngModel)]="isbn13"
-          type="text"
-          pInputText
-          required
-        />
-        <label for="float-input">ISBN13を入力</label>
+        <div class="ui-inputgroup">
+          <input
+            id="keyword-input"
+            placeholder="書名、著者名を入力"
+            formControlName="searchKeyword"
+            [(ngModel)]="searchKeyword"
+            type="text"
+            pInputText
+            required
+          />
+          <button
+            pButton
+            type="button"
+            icon="pi pi-search-plus"
+            [disabled]="!f.searchKeyword.valid"
+            (click)="onSearchDialogOpen($event)"
+          ></button>
+        </div>
       </span>
       <div
         class="error-msg"
-        *ngIf="f.isbn13.invalid && (f.isbn13.dirty || f.isbn13.touched)"
+        *ngIf="
+          f.searchKeyword.invalid &&
+          (f.searchKeyword.dirty || f.searchKeyword.touched)
+        "
       >
-        <span *ngIf="f.isbn13.hasError('required')">
+        <span *ngIf="f.searchKeyword.hasError('required')">
           入力してください。
         </span>
-        <span *ngIf="f.isbn13.hasError('lenght')">
-          13桁で入力してください。
-        </span>
-        <span *ngIf="f.isbn13.hasError('numeric')">
-          数値で入力してください。
-        </span>
-        <span *ngIf="f.isbn13.hasError('checksum')">
-          チェックサムが不正です。
-        </span>
       </div>
-    </div>
-    <div class="ui-g-6">
-      <button
-        pButton
-        type="button"
-        icon="pi pi-video"
-        label="バーコード取得"
-        (click)="onScanDialogOpen($event)"
-      ></button>
-    </div>
-    <div class="ui-g-6">
-      <button
-        pButton
-        type="button"
-        label="ISBN検索"
-        icon="pi pi-search-plus"
-        [disabled]="!formGroup.valid"
-        (click)="onPriceDialogOpen($event)"
-      ></button>
     </div>
   </form>
   <app-price-dialog
     [display]="displayPriceDialog"
     [isbn13]="isbn13"
+    [bookinfo]="bookinfo"
     (closed)="onClosedPriceDialog($event)"
   ></app-price-dialog>
   <app-scan-dialog
@@ -63,4 +57,10 @@
     (codeDetected)="codeDetected($event)"
     (closed)="onClosedScanDialog($event)"
   ></app-scan-dialog>
+  <app-book-search-dialog
+    [keyword]="searchKeyword"
+    [display]="displaySearchDialog"
+    (closed)="onClosedSearchDialog($event)"
+    (bookSelected)="onBookSelected($event)"
+  ></app-book-search-dialog>
 </div>

@@ -21,6 +21,7 @@ export class SurugayaService implements BookPriceService {
     bookPrice.isSoldOut = true;
 
     try {
+      console.log('url', this.requestBaseUrl.replace('{0}', isbn13));
       const htmls = await this.webClient.getHtmlAsync(
         this.requestBaseUrl.replace('{0}', isbn13)
       );

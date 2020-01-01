@@ -5,11 +5,9 @@ import {
   FormControl,
   Validators
 } from '@angular/forms';
-// prime modules
-import { InputTextModule } from 'primeng/inputtext';
-import { ButtonModule } from 'primeng/button';
 
 import { ISBN13Validator } from './validator/isbn-validator';
+import { BookInfo } from '../../../../models/books/bookInfo';
 
 @Component({
   selector: 'app-isbn-input',
@@ -18,13 +16,17 @@ import { ISBN13Validator } from './validator/isbn-validator';
 })
 export class IsbnInputComponent implements OnInit {
   formGroup = new FormGroup({
+    searchKeyword: new FormControl('', [Validators.required]),
     isbn13: new FormControl('', [
       Validators.required,
       ISBN13Validator.matchISBN13
     ])
   });
 
+  searchKeyword = '';
   isbn13 = '';
+  bookinfo: BookInfo;
+  displaySearchDialog = false;
   displayScanDialog = false;
   displayPriceDialog = false;
   constructor() {}
@@ -37,6 +39,21 @@ export class IsbnInputComponent implements OnInit {
   }
 
   public onSubmit(): void {}
+
+  public onSearchDialogOpen(): void {
+    this.displaySearchDialog = true;
+  }
+  public onClosedSearchDialog(): void {
+    this.displaySearchDialog = false;
+  }
+  public onBookSelected(bookinfo: BookInfo) {
+    this.clearInfo();
+    this.bookinfo = bookinfo;
+    setTimeout(() => {
+      this.displayPriceDialog = true;
+    }, 10);
+  }
+
   public onScanDialogOpen(): void {
     this.displayScanDialog = true;
   }
@@ -50,9 +67,15 @@ export class IsbnInputComponent implements OnInit {
     this.displayPriceDialog = false;
   }
   public codeDetected(code: string): void {
+    this.clearInfo();
     this.isbn13 = code;
     setTimeout(() => {
       this.displayPriceDialog = true;
     }, 10);
+  }
+
+  private clearInfo() {
+    this.isbn13 = '';
+    this.bookinfo = null;
   }
 }

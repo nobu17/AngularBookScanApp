@@ -24,7 +24,7 @@ export class BookInfoService {
         .get(this.urlbase + isbn13, this.httpOptions)
         .toPromise();
 
-      console.log('res', result);
+      // console.log('res', result);
 
       // get amazon link
       bookinfo.prdouctLink =

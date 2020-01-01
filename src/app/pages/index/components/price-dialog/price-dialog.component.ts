@@ -4,7 +4,6 @@ import { BookInfo } from '../../../../models/books/bookInfo';
 import { BookPriceServiceFactory } from '../../services/bookprice/bookservice-factory';
 import { BookPrice } from 'src/app/models/books/bppkprice';
 import { BookPriceService } from '../../services/bookprice/interface';
-import { promise } from 'protractor';
 import { Dialog } from 'primeng/dialog/dialog';
 
 @Component({
@@ -15,9 +14,9 @@ import { Dialog } from 'primeng/dialog/dialog';
 export class PriceDialogComponent implements OnInit {
   @Input() display: boolean;
   @Input() isbn13: string;
+  @Input() bookinfo: BookInfo;
   @Output() closed: EventEmitter<void> = new EventEmitter();
 
-  bookinfo: BookInfo;
   surugayaInfo: BookPrice;
   surugayaService: BookPriceService;
   bookoffInfo: BookPrice;
@@ -37,10 +36,15 @@ export class PriceDialogComponent implements OnInit {
       dialog.maximize();
     }, 10);
     this.resetInfo();
-    console.log('start showDialog', dialog);
-    this.bookinfo = await this.bookInfoService.getBookIfnoAsync(this.isbn13);
-    console.log('books', this.bookinfo);
-    dialog.maximize();
+    // if bookinfo is not setted, get from api
+    if (!this.bookinfo) {
+      // console.log('start showDialog', dialog);
+      this.bookinfo = await this.bookInfoService.getBookIfnoAsync(this.isbn13);
+      // console.log('books', this.bookinfo);
+    } else {
+      this.isbn13 = this.bookinfo.isbn13;
+    }
+
     const sTask = this.surugayaService.GetBookPriceAsync(this.isbn13);
     const bTask = this.bookoffService.GetBookPriceAsync(this.isbn13);
 
@@ -62,8 +66,8 @@ export class PriceDialogComponent implements OnInit {
   }
 
   private resetInfo(): void {
-    this.bookinfo = null;
+    // this.bookinfo = null;
     this.surugayaInfo = null;
-    this.bookinfo = null;
+    this.bookoffInfo = null;
   }
 }

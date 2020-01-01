@@ -13,6 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
+import { DataViewModule } from 'primeng/dataview';
 
 // app modules
 import { IsbnInputComponent } from './pages/index/components/isbn-input/isbn-input.component';
@@ -23,10 +24,12 @@ import { BookpriceBoxComponent } from './pages/index/components/bookprice-box/bo
 
 // app services
 import { BookInfoService } from './pages/index/services/bookinfo-service';
+import { BookSearchService } from './pages/index/services/book-search-service';
 import { ScrapingClient } from './pages/index/services/scraping-client';
 import { SurugayaService } from './pages/index/services/bookprice/surugaya-service';
 import { BookOffService } from './pages/index/services/bookprice/bookoff-service';
 import { BookPriceServiceFactory } from './pages/index/services/bookprice/bookservice-factory';
+import { BookSearchDialogComponent } from './pages/index/components/book-search-dialog/book-search-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,8 @@ import { BookPriceServiceFactory } from './pages/index/services/bookprice/bookse
     ScanDialogComponent,
     PriceDialogComponent,
     BookinfoBoxComponent,
-    BookpriceBoxComponent
+    BookpriceBoxComponent,
+    BookSearchDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -48,10 +52,12 @@ import { BookPriceServiceFactory } from './pages/index/services/bookprice/bookse
     DialogModule,
     ButtonModule,
     ProgressSpinnerModule,
-    CardModule
+    CardModule,
+    DataViewModule
   ],
   providers: [
     BookInfoService,
+    BookSearchService,
     ScrapingClient,
     SurugayaService,
     BookOffService,
