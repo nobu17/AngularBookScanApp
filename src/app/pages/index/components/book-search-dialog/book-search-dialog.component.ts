@@ -16,12 +16,14 @@ export class BookSearchDialogComponent implements OnInit {
 
   booklist: BookInfo[];
   isLoading: boolean;
+  errorMessage: string;
 
   constructor(private bookSearchService: BookSearchService) {}
 
   ngOnInit() {
     this.booklist = new Array<BookInfo>();
     this.isLoading = true;
+    this.errorMessage = '';
   }
 
   onBookSelectClicked(bookInfo: BookInfo) {
@@ -37,15 +39,23 @@ export class BookSearchDialogComponent implements OnInit {
       dialog.maximize();
     }, 10);
 
-    this.booklist = await this.bookSearchService.getBookInfoListAsync(
-      this.keyword
-    );
-    this.isLoading = false;
+    try {
+      this.booklist = await this.bookSearchService.getBookInfoListAsync(
+        this.keyword
+      );
+    } catch(err) {
+      this.errorMessage = 'エラーが発生しました。画面をリロードしてください。';
+      console.error(err);
+    } finally {
+      this.isLoading = false;
+    }
+
   }
 
   onHide() {
     this.display = false;
     this.isLoading = false;
+    this.errorMessage = '';
     this.closed.emit();
   }
 }

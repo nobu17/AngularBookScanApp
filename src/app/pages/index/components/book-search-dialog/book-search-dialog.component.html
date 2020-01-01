@@ -18,6 +18,12 @@
     </div>
   </ng-template>
   <ng-template #loaded>
+    <div *ngIf="errorMessage; then dispError; else dispSuccess"></div>
+  </ng-template>
+  <ng-template #dispError>
+    <h2 style="color: red;">{{ errorMessage }}</h2>
+  </ng-template>
+  <ng-template #dispSuccess>
     <p-dataView [value]="booklist">
       <ng-template let-bookinfo pTemplate="listItem">
         <div class="ui-g-12">
