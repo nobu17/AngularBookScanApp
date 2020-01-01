@@ -43,13 +43,12 @@ export class BookSearchDialogComponent implements OnInit {
       this.booklist = await this.bookSearchService.getBookInfoListAsync(
         this.keyword
       );
-    } catch(err) {
+    } catch (err) {
       this.errorMessage = 'エラーが発生しました。画面をリロードしてください。';
       console.error(err);
     } finally {
       this.isLoading = false;
     }
-
   }
 
   onHide() {
