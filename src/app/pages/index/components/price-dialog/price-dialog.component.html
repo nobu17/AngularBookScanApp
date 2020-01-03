@@ -15,13 +15,19 @@
       <app-bookinfo-box [bookinfo]="bookinfo"></app-bookinfo-box>
     </div>
 
-    <div class="ui-g-6 ui-md-4 ui-lg-4">
+    <div class="ui-g-12 ui-md-4 ui-lg-4">
+      <app-bookprice-box
+        storeName="Amazonマケプレ"
+        [bookPrice]="amazonInfo"
+      ></app-bookprice-box>
+    </div>
+    <div class="ui-g-12 ui-md-4 ui-lg-4">
       <app-bookprice-box
         storeName="駿河屋"
         [bookPrice]="surugayaInfo"
       ></app-bookprice-box>
     </div>
-    <div class="ui-g-6 ui-md-4 ui-lg-4">
+    <div class="ui-g-12 ui-md-4 ui-lg-4">
       <app-bookprice-box
         storeName="BookOff"
         [bookPrice]="bookoffInfo"

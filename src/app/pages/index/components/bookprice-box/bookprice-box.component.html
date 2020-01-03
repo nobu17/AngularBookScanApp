@@ -2,7 +2,9 @@
   <div *ngIf="bookPrice; then displayBook; else nodisplyBook"></div>
 </p-card>
 <ng-template #displayBook>
-  <div *ngIf="bookPrice.isSoldOut || bookPrice.isError; then soldout; else stock"></div>
+  <div
+    *ngIf="bookPrice.isSoldOut || bookPrice.isError; then soldout; else stock"
+  ></div>
 </ng-template>
 <ng-template #nodisplyBook>
   <p-progressSpinner></p-progressSpinner>
@@ -10,6 +12,7 @@
 </ng-template>
 <ng-template #stock>
   <h3>{{ bookPrice.price }}円</h3>
+  <div *ngIf="bookPrice.shipping > 0; then displayShipping"></div>
   <button
     style="margin: 5px;"
     pButton
@@ -27,4 +30,7 @@
     label="Link"
     [disabled]="true"
   ></button>
+</ng-template>
+<ng-template #displayShipping>
+  <h4>送料:{{ bookPrice.shipping }}円</h4>
 </ng-template>

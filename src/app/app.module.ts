@@ -26,7 +26,9 @@ import { BookpriceBoxComponent } from './pages/index/components/bookprice-box/bo
 import { BookInfoService } from './pages/index/services/bookinfo-service';
 import { BookSearchService } from './pages/index/services/book-search-service';
 import { ScrapingClient } from './pages/index/services/scraping-client';
+import { ApiCallClient } from './pages/index/services/api-call-client';
 import { SurugayaService } from './pages/index/services/bookprice/surugaya-service';
+import { AmazonMarketService } from './pages/index/services/bookprice/amazon-market-service';
 import { BookOffService } from './pages/index/services/bookprice/bookoff-service';
 import { BookPriceServiceFactory } from './pages/index/services/bookprice/bookservice-factory';
 import { BookSearchDialogComponent } from './pages/index/components/book-search-dialog/book-search-dialog.component';
@@ -59,7 +61,9 @@ import { BookSearchDialogComponent } from './pages/index/components/book-search-
     BookInfoService,
     BookSearchService,
     ScrapingClient,
+    ApiCallClient,
     SurugayaService,
+    AmazonMarketService,
     BookOffService,
     BookPriceServiceFactory
   ],

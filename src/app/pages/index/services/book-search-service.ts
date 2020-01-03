@@ -43,7 +43,7 @@ export class BookSearchService {
             bookinfo.pubdate = book.volumeInfo.publishedDate;
 
             for (const iden of book.volumeInfo.industryIdentifiers) {
-              console.log('iden', iden);
+              // console.log('iden', iden);
               if (iden.type === 'ISBN_13') {
                 bookinfo.isbn13 = iden.identifier;
                 console.log('isbn13', bookinfo.isbn13);

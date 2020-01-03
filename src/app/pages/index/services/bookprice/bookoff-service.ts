@@ -24,7 +24,7 @@ export class BookOffService implements BookPriceService {
       const htmls = await this.webClient.getHtmlAsync(
         this.requestBaseUrl.replace('{0}', isbn13)
       );
-      // console.log('html:', htmls);
+      console.log('html:', htmls);
       if (htmls) {
         const strhtml: string = htmls as string;
         const doc = this.parser.parseFromString(strhtml, 'text/html');

@@ -17,6 +17,8 @@ export class PriceDialogComponent implements OnInit {
   @Input() bookinfo: BookInfo;
   @Output() closed: EventEmitter<void> = new EventEmitter();
 
+  amazonInfo: BookPrice;
+  amazonMarketService: BookPriceService;
   surugayaInfo: BookPrice;
   surugayaService: BookPriceService;
   bookoffInfo: BookPrice;
@@ -28,6 +30,7 @@ export class PriceDialogComponent implements OnInit {
   ) {
     this.surugayaService = this.factory.getBookPriceService('surugaya');
     this.bookoffService = this.factory.getBookPriceService('bookoff');
+    this.amazonMarketService = this.factory.getBookPriceService('amazon');
   }
 
   async onShow(dialog: Dialog) {
@@ -44,11 +47,15 @@ export class PriceDialogComponent implements OnInit {
     } else {
       this.isbn13 = this.bookinfo.isbn13;
     }
-
+    const aTask = this.amazonMarketService.GetBookPriceAsync(this.isbn13);
     const sTask = this.surugayaService.GetBookPriceAsync(this.isbn13);
     const bTask = this.bookoffService.GetBookPriceAsync(this.isbn13);
 
-    [this.surugayaInfo, this.bookoffInfo] = await Promise.all([sTask, bTask]);
+    [this.amazonInfo, this.surugayaInfo, this.bookoffInfo] = await Promise.all([
+      aTask,
+      sTask,
+      bTask
+    ]);
   }
   onHide() {
     this.display = false;
@@ -60,13 +67,14 @@ export class PriceDialogComponent implements OnInit {
     bookinfo.author = 'loading...';
     bookinfo.prdouctLink = 'dummy';
     bookinfo.title = 'loading...';
-    bookinfo.imageUrl = './aasets/no-image.png';
+    // bookinfo.imageUrl = './aasets/no-image.png';
 
     this.bookinfo = bookinfo;
   }
 
   private resetInfo(): void {
     // this.bookinfo = null;
+    this.amazonInfo = null;
     this.surugayaInfo = null;
     this.bookoffInfo = null;
   }

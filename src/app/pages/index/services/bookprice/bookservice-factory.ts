@@ -1,5 +1,6 @@
 import { BookPriceService } from './interface';
 import { SurugayaService } from './surugaya-service';
+import { AmazonMarketService } from './amazon-market-service';
 import { BookOffService } from './bookoff-service';
 import { Injectable } from '@angular/core';
 
@@ -7,7 +8,8 @@ import { Injectable } from '@angular/core';
 export class BookPriceServiceFactory {
   constructor(
     private surugaya: SurugayaService,
-    private bookoff: BookOffService
+    private bookoff: BookOffService,
+    private amazon: AmazonMarketService,
   ) {}
 
   public getBookPriceService(store: string): BookPriceService {
@@ -16,6 +18,8 @@ export class BookPriceServiceFactory {
         return this.surugaya;
       case 'bookoff':
         return this.bookoff;
+        case 'amazon':
+          return this.amazon;
       default:
         throw new Error('not supported store');
     }
