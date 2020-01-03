@@ -7,7 +7,7 @@
       type="button"
       icon="pi pi-video"
       label="バーコードで本を検索"
-      (click)="onScanDialogOpen($event)"
+      (click)="onScanDialogOpen()"
     ></button>
   </div>
   <form (ngSubmit)="onSubmit()" [formGroup]="formGroup">
@@ -21,7 +21,7 @@
             formControlName="searchKeyword"
             [(ngModel)]="searchKeyword"
             type="text"
-            (keyup.enter)="onSearchDialogOpen($event)"
+            (keyup.enter)="onSearchDialogOpen()"
             pInputText
             required
           />
@@ -30,7 +30,7 @@
             type="button"
             icon="pi pi-search-plus"
             [disabled]="!f.searchKeyword.valid"
-            (click)="onSearchDialogOpen($event)"
+            (click)="onSearchDialogOpen()"
           ></button>
         </div>
       </span>
@@ -51,17 +51,17 @@
     [display]="displayPriceDialog"
     [isbn13]="isbn13"
     [bookinfo]="bookinfo"
-    (closed)="onClosedPriceDialog($event)"
+    (closed)="onClosedPriceDialog()"
   ></app-price-dialog>
   <app-scan-dialog
     [display]="displayScanDialog"
     (codeDetected)="codeDetected($event)"
-    (closed)="onClosedScanDialog($event)"
+    (closed)="onClosedScanDialog()"
   ></app-scan-dialog>
   <app-book-search-dialog
     [keyword]="searchKeyword"
     [display]="displaySearchDialog"
-    (closed)="onClosedSearchDialog($event)"
+    (closed)="onClosedSearchDialog()"
     (bookSelected)="onBookSelected($event)"
   ></app-book-search-dialog>
 </div>
