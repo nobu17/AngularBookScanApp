@@ -1,0 +1,36 @@
+<p-card class="book-card" header="{{ storeName }}">
+  <div *ngIf="bookPrice; then displayBook; else nodisplyBook"></div>
+</p-card>
+<ng-template #displayBook>
+  <div
+    *ngIf="bookPrice.isSoldOut || bookPrice.isError; then soldout; else stock"
+  ></div>
+</ng-template>
+<ng-template #nodisplyBook>
+  <p-progressSpinner></p-progressSpinner>
+  <p>Loading...</p>
+</ng-template>
+<ng-template #stock>
+  <h3>{{ bookPrice.price }}円</h3>
+  <div *ngIf="bookPrice.shipping > 0; then displayShipping"></div>
+  <button
+    style="margin: 5px;"
+    pButton
+    type="button"
+    label="Link"
+    (click)="onProductLink()"
+  ></button>
+</ng-template>
+<ng-template #soldout>
+  <h3>情報なし</h3>
+  <button
+    style="margin: 5px;"
+    pButton
+    type="button"
+    label="Link"
+    [disabled]="true"
+  ></button>
+</ng-template>
+<ng-template #displayShipping>
+  <h4>送料:{{ bookPrice.shipping }}円</h4>
+</ng-template>
