@@ -47,3 +47,5 @@ Thumbs.db
 
 # secret data
 environment.prod.ts
+environment.local.ts
+

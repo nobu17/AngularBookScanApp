@@ -1,12 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BookPrice } from '../../../models/books/bppkprice';
+import { environment } from './../../../../environments/environment';
 
 @Injectable()
 export class ApiCallClient {
   private httpOptions: any = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'x-api-key': environment.apikey
     }),
     responseType: 'json',
     body: null
