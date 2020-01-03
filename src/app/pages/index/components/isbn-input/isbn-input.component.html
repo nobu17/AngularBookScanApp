@@ -21,6 +21,7 @@
             formControlName="searchKeyword"
             [(ngModel)]="searchKeyword"
             type="text"
+            (keyup.enter)="onSearchDialogOpen($event)"
             pInputText
             required
           />

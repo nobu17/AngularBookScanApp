@@ -41,7 +41,9 @@ export class IsbnInputComponent implements OnInit {
   public onSubmit(): void {}
 
   public onSearchDialogOpen(): void {
-    this.displaySearchDialog = true;
+    if (!this.formGroup.controls.searchKeyword.invalid) {
+      this.displaySearchDialog = true;
+    }
   }
   public onClosedSearchDialog(): void {
     this.displaySearchDialog = false;
