@@ -22,29 +22,35 @@ export class PriceDialogComponent implements OnInit {
   bookoffInfo: BookPrice;
   bookoffService: BookPriceService;
 
-  constructor(
-    private factory: BookPriceServiceFactory
-  ) {
+  constructor(private factory: BookPriceServiceFactory) {
     this.surugayaService = this.factory.getBookPriceService('surugaya');
     this.bookoffService = this.factory.getBookPriceService('bookoff');
     this.amazonMarketService = this.factory.getBookPriceService('amazon');
   }
 
-  async onShow(dialog: Dialog) {
+  onShow(dialog: Dialog) {
     // this.display = true;
     setTimeout(() => {
       dialog.maximize();
     }, 10);
     this.resetInfo();
-    const aTask = this.amazonMarketService.GetBookPriceAsync(this.bookinfo.isbn13);
+    const aTask = this.amazonMarketService.GetBookPriceAsync(
+      this.bookinfo.isbn13
+    );
     const sTask = this.surugayaService.GetBookPriceAsync(this.bookinfo.isbn13);
     const bTask = this.bookoffService.GetBookPriceAsync(this.bookinfo.isbn13);
 
-    [this.amazonInfo, this.surugayaInfo, this.bookoffInfo] = await Promise.all([
-      aTask,
-      sTask,
-      bTask
-    ]);
+    aTask.then(res => {
+      this.amazonInfo = res;
+    });
+
+    sTask.then(res => {
+      this.surugayaInfo = res;
+    });
+
+    bTask.then(res => {
+      this.bookoffInfo = res;
+    });
   }
   onHide() {
     this.display = false;
