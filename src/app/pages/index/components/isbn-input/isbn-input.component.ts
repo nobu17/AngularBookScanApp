@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  Validators
-} from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { ISBN13Validator } from './validator/isbn-validator';
 import { BookInfo } from '../../../../models/books/bookInfo';
+import { BookSearchService } from '../../services/book-search-service';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-isbn-input',
@@ -24,14 +21,20 @@ export class IsbnInputComponent implements OnInit {
   });
 
   searchKeyword = '';
-  isbn13 = '';
   bookinfo: BookInfo;
+  isLoading = true;
   displaySearchDialog = false;
   displayScanDialog = false;
   displayPriceDialog = false;
-  constructor() {}
 
-  ngOnInit() {}
+  constructor(
+    private bookSearchService: BookSearchService,
+    private confirmationService: ConfirmationService
+  ) {}
+
+  ngOnInit() {
+    this.isLoading = false;
+  }
 
   // convenience getter for easy access to form fields
   get f() {
@@ -68,16 +71,29 @@ export class IsbnInputComponent implements OnInit {
   public onClosedPriceDialog(): void {
     this.displayPriceDialog = false;
   }
-  public codeDetected(code: string): void {
+  public async codeDetected(code: string): Promise<void> {
     this.clearInfo();
-    this.isbn13 = code;
-    setTimeout(() => {
-      this.displayPriceDialog = true;
-    }, 10);
+    try {
+      this.isLoading = true;
+      this.bookinfo = await this.bookSearchService.getBookInfoAsync(code);
+      if (!this.bookinfo) {
+        throw new Error('no book info');
+      }
+      setTimeout(() => {
+        this.displayPriceDialog = true;
+      }, 10);
+    } catch (err) {
+      console.error(err);
+      this.confirmationService.confirm({
+        message: '本の情報取が取得できませんでした。',
+        accept: () => {}
+      });
+    } finally {
+      this.isLoading = false;
+    }
   }
 
   private clearInfo() {
-    this.isbn13 = '';
     this.bookinfo = null;
   }
 }

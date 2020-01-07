@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BookInfoService } from '../../services/bookinfo-service';
 import { BookInfo } from '../../../../models/books/bookInfo';
 import { BookPriceServiceFactory } from '../../services/bookprice/bookservice-factory';
 import { BookPrice } from 'src/app/models/books/bppkprice';
@@ -13,7 +12,6 @@ import { Dialog } from 'primeng/dialog/dialog';
 })
 export class PriceDialogComponent implements OnInit {
   @Input() display: boolean;
-  @Input() isbn13: string;
   @Input() bookinfo: BookInfo;
   @Output() closed: EventEmitter<void> = new EventEmitter();
 
@@ -25,7 +23,6 @@ export class PriceDialogComponent implements OnInit {
   bookoffService: BookPriceService;
 
   constructor(
-    private bookInfoService: BookInfoService,
     private factory: BookPriceServiceFactory
   ) {
     this.surugayaService = this.factory.getBookPriceService('surugaya');
@@ -39,17 +36,9 @@ export class PriceDialogComponent implements OnInit {
       dialog.maximize();
     }, 10);
     this.resetInfo();
-    // if bookinfo is not setted, get from api
-    if (!this.bookinfo) {
-      // console.log('start showDialog', dialog);
-      this.bookinfo = await this.bookInfoService.getBookIfnoAsync(this.isbn13);
-      // console.log('books', this.bookinfo);
-    } else {
-      this.isbn13 = this.bookinfo.isbn13;
-    }
-    const aTask = this.amazonMarketService.GetBookPriceAsync(this.isbn13);
-    const sTask = this.surugayaService.GetBookPriceAsync(this.isbn13);
-    const bTask = this.bookoffService.GetBookPriceAsync(this.isbn13);
+    const aTask = this.amazonMarketService.GetBookPriceAsync(this.bookinfo.isbn13);
+    const sTask = this.surugayaService.GetBookPriceAsync(this.bookinfo.isbn13);
+    const bTask = this.bookoffService.GetBookPriceAsync(this.bookinfo.isbn13);
 
     [this.amazonInfo, this.surugayaInfo, this.bookoffInfo] = await Promise.all([
       aTask,
@@ -64,11 +53,6 @@ export class PriceDialogComponent implements OnInit {
 
   ngOnInit() {
     const bookinfo = new BookInfo();
-    bookinfo.author = 'loading...';
-    bookinfo.prdouctLink = 'dummy';
-    bookinfo.title = 'loading...';
-    // bookinfo.imageUrl = './aasets/no-image.png';
-
     this.bookinfo = bookinfo;
   }
 

@@ -14,6 +14,8 @@ import { DialogModule } from 'primeng/dialog';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
 import { DataViewModule } from 'primeng/dataview';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 // app modules
 import { IsbnInputComponent } from './pages/index/components/isbn-input/isbn-input.component';
@@ -55,7 +57,8 @@ import { BookSearchDialogComponent } from './pages/index/components/book-search-
     ButtonModule,
     ProgressSpinnerModule,
     CardModule,
-    DataViewModule
+    DataViewModule,
+    ConfirmDialogModule
   ],
   providers: [
     BookInfoService,
@@ -65,7 +68,8 @@ import { BookSearchDialogComponent } from './pages/index/components/book-search-
     SurugayaService,
     AmazonMarketService,
     BookOffService,
-    BookPriceServiceFactory
+    BookPriceServiceFactory,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })

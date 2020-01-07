@@ -49,7 +49,6 @@
   </form>
   <app-price-dialog
     [display]="displayPriceDialog"
-    [isbn13]="isbn13"
     [bookinfo]="bookinfo"
     (closed)="onClosedPriceDialog()"
   ></app-price-dialog>
@@ -64,4 +63,12 @@
     (closed)="onClosedSearchDialog()"
     (bookSelected)="onBookSelected($event)"
   ></app-book-search-dialog>
+  <p-confirmDialog #cd header="エラー" icon="pi pi-exclamation-triangle">
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" label="OK" (click)="cd.accept()"></button>
+    </p-footer>
+</p-confirmDialog>
+<div class="loading-indicator" *ngIf="isLoading">
+  <p-progressSpinner></p-progressSpinner>
+  </div>
 </div>

@@ -44,10 +44,6 @@ export class BookInfoService {
       bookinfo.isError = true;
     }
 
-    if (!bookinfo.imageUrl) {
-      bookinfo.imageUrl = './assets/no-image.png';
-    }
-
     return bookinfo;
   }
 }

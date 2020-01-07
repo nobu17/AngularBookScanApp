@@ -13,6 +13,21 @@ export class BookSearchService {
   };
   constructor(private http: HttpClient) {}
 
+  public async getBookInfoAsync(isbn13: string): Promise<BookInfo> {
+    const result = await this.http
+      .get(
+        this.urlbase + 'isbn:' + isbn13 + '&maxResults=40&langRestrict=ja',
+        this.httpOptions
+      )
+      .toPromise();
+    const books = this.getBookInfoFromBody(result);
+    if (books.length > 0) {
+      return books[0];
+    } else {
+      return null;
+    }
+  }
+
   public async getBookInfoListAsync(keyword: string): Promise<Array<BookInfo>> {
     // convert multiple search condition
     const actkeywords = keyword.replace(' ', '+').replace('　', '+');
@@ -25,9 +40,13 @@ export class BookSearchService {
       )
       .toPromise();
 
+    return this.getBookInfoFromBody(result);
+  }
+
+  private getBookInfoFromBody(body: any): BookInfo[] {
     const list = new Array<BookInfo>();
-    if (result) {
-      const response: any = result;
+    if (body) {
+      const response: any = body;
       if (response.items) {
         const booklist: Array<any> = response.items;
         for (const book of booklist) {
