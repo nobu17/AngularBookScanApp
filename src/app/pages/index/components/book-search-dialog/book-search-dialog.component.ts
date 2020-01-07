@@ -27,7 +27,7 @@ export class BookSearchDialogComponent implements OnInit {
   }
 
   onBookSelectClicked(bookInfo: BookInfo) {
-    this.onHide();
+    // this.onHide();
     console.log('selected', bookInfo);
     this.bookSelected.emit(bookInfo);
   }
